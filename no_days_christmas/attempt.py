@@ -1,12 +1,11 @@
 def get_no_presents_from_true_love(target_n, n=1, pt1=0, pt2=0):
-    if target_n==n:
+    if target_n == n:
         return n+2*pt1+pt2
     return get_no_presents_from_true_love(target_n, n+1, pt1+n, pt1+pt2)
 
 
 def bubble_sort(array):
-    start = 0
-    finished=False
+    finished = False
     while not finished:
         finished = True
         for index in range(len(array)-1):
