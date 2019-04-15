@@ -12,7 +12,7 @@ script:
   - coverage run -m unittest discover
 
 after_success:
-  - pylint --output-format=html pylint_server > /tmp/pylint-report.html
+  - pylint --output-format=parseable pylint_server > /tmp/pylint-report.html
   - coverage report -m > /tmp/coverage.html
   - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-report=@/tmp/pylint-report.html http://63.33.197.197:80/pylint-reports
   - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
