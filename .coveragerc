@@ -3,6 +3,7 @@
 branch = True
 omit =
         */usr/local/lib*
+	*/lib/python*
         */__init__.py
 	*setup.py
 
@@ -11,6 +12,7 @@ omit =
 	*/tests/*
         */usr/local/lib*
 	*.local/lib*
+	*/lib/python*
         */__init__.py
 	*setup.py
 
