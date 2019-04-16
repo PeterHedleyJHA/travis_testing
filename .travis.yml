@@ -19,5 +19,5 @@ after_success:
   - cat /tmp/pylint.txt
   - coverage report -m
   - coverage report -m > /tmp/coverage.html
-  - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:8787/pylint-reports
-  - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
+  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:8787/pylint-reports
+  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
