@@ -7,13 +7,17 @@ python:
 install:
   - "pip install pylint"
   - "pip install coverage"
+  - "pip install nose2"
+  - "pip install pylint-json2html"
   
 script:
-  - coverage run -m unittest discover
+  - coverage run -m nose2
 
 after_success:
-  - pylint --output-format=parseable no_days_christmas > /tmp/pylint-report.html
+  - pylint --output-format=parseable **/*.py > /tmp/pylint.txt
+  - pylint --output-format=json **/*.py | pylint-json2html -f json -o /tmp/pylint_html_report.html
+  - cat /tmp/pylint.txt
   - coverage report -m
   - coverage report -m > /tmp/coverage.html
-  - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-report=@/tmp/pylint-report.html http://63.33.197.197:80/pylint-reports
-  - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
+  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:80/pylint-reports
+  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
