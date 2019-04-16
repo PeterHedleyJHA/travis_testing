@@ -2,8 +2,14 @@ language: python
 
 python:
 
-  - "2.7"
-
+  - "3.6"
+  
+install:
+  - "pip install pylint"
+  
 script:
+  - python -m unittest discover
 
-  - nose2
+after_success:
+  - pylint --output-format=parseable no_days_christmas > /tmp/pylint-report.html
+  - curl -v -m 120 -X POST -F travis-job-id=$TRAVIS_JOB_ID -F pylint-report=@/tmp/pylint-report.html http://63.33.197.197:80/reports
