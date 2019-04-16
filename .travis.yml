@@ -16,7 +16,7 @@ script:
 after_success:
   - pylint --output-format=parseable **/*.py > /tmp/pylint.txt
   - pylint --output-format=json **/*.py | pylint-json2html -f json -o /tmp/pylint_html_report.html
-  - cat /tmp/pylint-report.html
+  - cat /tmp/pylint.txt
   - coverage report -m
   - coverage report -m > /tmp/coverage.html
   - curl -v -m 120 -X POST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:8787/pylint-reports
