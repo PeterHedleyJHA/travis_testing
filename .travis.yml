@@ -6,6 +6,7 @@ python:
   
 install:
   - "pip install pylint"
+  - "sudo apt-get install git"
   - "pip install coverage"
   - "pip install nose2"
   - "pip install pylint-json2html"
