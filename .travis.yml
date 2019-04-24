@@ -9,6 +9,7 @@ install:
   - "pip install coverage"
   - "pip install nose2"
   - "pip install pylint-json2html"
+  - "pip install git+https://github.com/PeterHedleyJHA/travis_code_review.git"
   
 script:
   - coverage run -m nose2
@@ -20,5 +21,8 @@ after_success:
   - coverage report -m > /tmp/coverage.html
   - cat /tmp/coverage.html
   - coverage html -d coverage_html
-  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:80/pylint-reports
-  - curl -v -m 120 -X POST -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-html-report=@./coverage_html/index.html -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
+  - zip -r ./coverage_html.zip ./coverage_html/
+  - readme_scorer
+  - curl -v -m 120 -X POST -u LOGIN:I_Love_CI -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F readme-report=@./readme_scorer_report.html http://63.33.197.197:80/readme-reports
+  - curl -v -m 120 -X POST -u LOGIN:I_Love_CI -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F pylint-html-report=@/tmp/pylint_html_report.html -F pylint-report=@/tmp/pylint.txt http://63.33.197.197:80/pylint-reports
+  - curl -v -m 120 -X POST -u LOGIN:I_Love_CI -F pull-req=$TRAVIS_PULL_REQUEST -F git-slug=$TRAVIS_REPO_SLUG -F git-branch=$TRAVIS_BRANCH -F coverage-html-report-zip=@./coverage_html.zip -F coverage-report=@/tmp/coverage.html http://63.33.197.197:80/coverage-reports
