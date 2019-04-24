@@ -9,7 +9,7 @@ install:
   - "pip install coverage"
   - "pip install nose2"
   - "pip install pylint-json2html"
-  - "pip install https://github.com/PeterHedleyJHA/travis_code_review.git"
+  - "pip install git+https://github.com/PeterHedleyJHA/travis_code_review.git"
   
 script:
   - coverage run -m nose2
